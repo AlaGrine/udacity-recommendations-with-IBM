@@ -22,7 +22,7 @@ A dataset of **5149** users, **714** articles and about **46K** interactions is 
 The project is divided into the following sections:
 
 1. Build an ETL pipeline to extract, clean and load the data to a SQLite database.
-2. Build an ensemble of recommendation algorithms (including ranked based, user-user based, contenet-based and SVD-based recs).
+2. Build an ensemble of recommendation algorithms (including rank-based, user-user based collaborative filtering, content-based and SVD-based recs).
 3. Run a WEB application to display these recommendations.
 
 ## Installation <a name="installation"></a>
@@ -86,12 +86,12 @@ This project requires Python 3 and the following Python libraries installed:
    To test any user of the IBM dataset you can login as follows:<br>
    **Login:** user`x`@test.com (where x is the user id. x is between 1 and 5149). <br>
    **Login example:** user25@test.com<br>
-   **Password:** user.
+   **Password:** user
    <div align="center">
      <img src="https://github.com/AlaGrine/udacity-recommendations-with-IBM/blob/main/Notebooks/imgs/login.png" >
    </div>
 
-2. If you are a new user (ie. you sign up), our `RecSys` will return the top **12** ranked articles. The **Rank based** algorithm is used here.
+2. If you are a new user (ie. you sign up), our `RecSys` will return the top **12** ranked articles. The **rank-based** algorithm is used here.
 
    ![image top_ranked](https://github.com/AlaGrine/udacity-recommendations-with-IBM/blob/main/Notebooks/imgs/top_ranked.png)
 
@@ -101,7 +101,7 @@ This project requires Python 3 and the following Python libraries installed:
 
    ![image svd](https://github.com/AlaGrine/udacity-recommendations-with-IBM/blob/main/Notebooks/imgs/SVD_recs.png)
 
-4. The second list is the output of the **User-User Based Collaborative Filtering** algorithm. This list is called `Users are viewing`.
+4. The second list is the output of the **user-user based collaborative filtering** algorithm. This list is called `Users are viewing`.
 
    ![image user_based](https://github.com/AlaGrine/udacity-recommendations-with-IBM/blob/main/Notebooks/imgs/User_are_viewing.png)
 
@@ -123,7 +123,7 @@ Our RecSys is an ensemble of algorithms described below.
 
 To find the most popular articles, our RecSys simply uses the number of interactions. Since there are no ratings for any of the articles, we can assume that the articles with the most interactions are the most popular. These top ranked articles are then recommended to **new** users.
 
-> The rank based recs is the simplest way to solve the **cold start problem**, i.e. no information about the user's preferences. When you sign up to the app, you will see this.
+> The rank based recs is the simplest way to solve the **cold start problem**, i.e. no information about the user's preferences. When you sign up to the app, you will see this list.
 
 ### Knowloedge-Based Recommendations:
 
@@ -133,10 +133,9 @@ Another way to deal with the **cold start problem** is to add filters to the web
 
 ### User-User Based Collaborative Filtering:
 
-Here we look at users that are **similar** to user `X` in terms of the articles they have read.
-The top ranked articles read by these similar users (and not read by user `X`) are then recommended to user `X`.
+Here we look at users who are similar to user `X` in terms of the articles they have read. The top-ranked articles read by these similar users (and not read by User `X`) are then recommended to User `X`.
 
-> Building the user-user based algorithm is a step forward in providing more personalised recommendations for users.
+> Building the user-user based collaborative filtering algorithm is a step forward in providing more personalised recommendations for users.
 
 ### Content Based Recommendations:
 
