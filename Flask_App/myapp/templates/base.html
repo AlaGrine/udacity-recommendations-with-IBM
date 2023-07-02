@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <title>Recommendations with IBM</title>
+    <link rel=icon href="../static/R.svg">
+
+    <!-- Bootstrap core CSS -->
+    <link href="../static/assets/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- font-awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+    <!-- Custom styles for this template -->
+    <link href="../static/dashboard.css" rel="stylesheet">
+
+</head>
+
+<body class="d-flex flex-column h-100">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+            <div class="container-fluid">
+                <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="{{ url_for('main.recommendations') }}">
+                    <img src="../static/IBM_watson.png" width="28" height="28" alt="">
+                    RecSys with IBM
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    {% if current_user.is_authenticated %}
+                    <form class="w-100" action="/search_articles" method="get">
+                        <input class="form-control form-control-dark w-100" type="text" name="filter"
+                            placeholder="Search" title="Search Key Words" aria-label="Search">
+                    </form>
+                    {% endif %}
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            {% if request.path == url_for('main.index') %}
+                            <!-- set class to active -->
+                            <a href="{{ url_for('main.index') }}" class="nav-link active">
+                                Home
+                            </a>
+                            {% else %}
+                            <a href="{{ url_for('main.index') }}" class="nav-link">
+                                Home
+                            </a>
+                            {% endif %}
+                        </li>
+                        {% if current_user.is_authenticated %}
+                        <li class="nav-item">
+                            {% if request.path == url_for('main.recommendations') %}
+                            <!-- set class to active -->
+                            <a href="{{ url_for('main.recommendations') }}" class="nav-link active">
+                                Recommendations
+                            </a>
+                            {% else %}
+                            <a href="{{ url_for('main.recommendations') }}" class="nav-link">
+                                Recommendations
+                            </a>
+                            {% endif %}
+                        </li>
+                        <li class="nav-item">
+                            {% if request.path == url_for('main.dashboard') %}
+                            <!-- set class to active -->
+                            <a href="{{ url_for('main.dashboard') }}" class="nav-link active">
+                                Dashboard
+                            </a>
+                            {% else %}
+                            <a href="{{ url_for('main.dashboard') }}" class="nav-link">
+                                Dashboard
+                            </a>
+                            {% endif %}
+                        </li>
+                        {% endif %}
+                        {% if not current_user.is_authenticated %}
+                        <li class="nav-item">
+                            {% if request.path == url_for('auth.login') %}
+                            <!-- set class to active -->
+                            <a href="{{ url_for('auth.login') }}" class="nav-link active">
+                                Login
+                            </a>
+                            {% else %}
+                            <a href="{{ url_for('auth.login') }}" class="nav-link">
+                                Login
+                            </a>
+                            {% endif %}
+                        </li>
+                        <li class="nav-item">
+                            {% if request.path == url_for('auth.signup') %}
+                            <!-- set class to active -->
+                            <a href="{{ url_for('auth.signup') }}" class="nav-link active">
+                                Sign Up
+                            </a>
+                            {% else %}
+                            <a href="{{ url_for('auth.signup') }}" class="nav-link">
+                                Sign Up
+                            </a>
+                            {% endif %}
+                        </li>
+                        {% endif %}
+                        {% if current_user.is_authenticated %}
+                        <li class="nav-item">
+                            <a href="{{ url_for('auth.logout') }}" class="nav-link">
+                                Logout
+                            </a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+
+    <div class="container h-100 mt-3 p-5">
+        <div class="row justify-content-sm-center h-100 ">
+
+
+            {% block search_articles %}
+            {% endblock %}
+
+            {% block content %}
+            {% endblock %}
+
+            {% block RecsForYou_Message %}
+            {% endblock %}
+
+            {% block RecsForYou_Content %}
+            {% endblock %}
+
+            {% block OtherUserView_Message %}
+            {% endblock %}
+
+            {% block OtherUserView_Content %}
+            {% endblock %}
+
+            {% block ContentRecs_Message %}
+            {% endblock %}
+
+            {% block ContentRecs_Content %}
+            {% endblock %}
+
+            {% block read_article %}
+            {% endblock %}
+
+            <!-- footer -->
+
+            <div class="text-center mt-4 footer">
+                <p>
+                    &copy;
+                    <script>document.write(new Date().getFullYear());</script> Made with
+                    <a href="https://www.udacity.com/" target="_blank" style="text-decoration: none;"> Udacity
+                    </a>
+                    and
+                    <a href="https://eu-de.dataplatform.cloud.ibm.com/login?preselect_region=true" target="_blank"
+                        style="text-decoration: none;"> IBM </a>
+                </p>
+            </div>
+
+
+        </div>
+    </div>
+
+
+
+
+
+    <!-- Scripts -->
+    <script src="../static/assets/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"
+        integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE"
+        crossorigin="anonymous"></script>
+
+    <script src="../static/dashboard.js"></script>
+
+</body>
+
+</html>

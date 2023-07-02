@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- <div class="container h-100">
+    <h3 class="title">Sign Up</h3>
+    <div class="box">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="notification is-danger">
+            {{ messages[0] }}. Go to <a href="{{ url_for('auth.login') }}">login page</a>.
+        </div>
+        {% endif %}
+        {% endwith %}
+        <form method="POST" action="/signup">
+            <div class="field">
+                <div class="control">
+                    <input class="input is-large" type="email" name="email" placeholder="Email" autofocus="">
+                </div>
+            </div>
+
+            <div class="field">
+                <div class="control">
+                    <input class="input is-large" type="text" name="name" placeholder="Name" autofocus="">
+                </div>
+            </div>
+
+            <div class="field">
+                <div class="control">
+                    <input class="input is-large" type="password" name="password" placeholder="Password">
+                </div>
+            </div>
+
+            <button class="button is-block is-info is-large is-fullwidth">Sign Up</button>
+        </form>
+    </div>
+</div> -->
+
+
+
+
+
+
+<section class="h-100">
+    <div class="container h-100">
+        <div class="row justify-content-sm-center h-100">
+            <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-7 col-sm-9">
+                <!-- <div class="text-center my-5">
+                    <img src="../static/IBM_watson.png" alt="logo" width="100">
+                </div> -->
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                <div class="text-center notification is-danger mt-4 p-2">
+                    {{ messages[0] }}. Go to <a style="color: aliceblue;" href="{{ url_for('auth.login') }}">
+                        login page</a>.
+                </div>
+                {% endif %}
+                {% endwith %}
+                <div class="card shadow-lg mt-4">
+                    <div class="card-body p-5">
+                        <h1 class="fs-4 card-title fw-bold mb-4">Sign Up</h1>
+                        <form method="POST" action="/signup" class="needs-validation" novalidate="">
+                            <div class="mb-3">
+                                <label class="mb-2 text-muted" for="email">E-Mail Address</label>
+                                <input class="form-control" id="email" type="email" placeholder="Email" name="email"
+                                    value="" required autofocus>
+                                <div class="invalid-feedback">
+                                    Email is invalid
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="mb-2 text-muted" for="name">Name</label>
+                                <input id="name" type="text" class="form-control" name="name" value=""
+                                    placeholder="Name" required autofocus>
+                                <div class="invalid-feedback">
+                                    Name is required
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="mb-2 w-100">
+                                    <label class="text-muted" for="password">Password</label>
+                                    <!-- <a href="/forgot" class="float-end">
+                                        Forgot Password?
+                                    </a> -->
+                                </div>
+                                <input id="password" type="password" class="form-control" placeholder="Password"
+                                    name="password" required>
+                                <div class="invalid-feedback">
+                                    Password is required
+                                </div>
+                            </div>
+
+                            <div class="d-flex align-items-center">
+                                <!-- <div class="form-check">
+                                    <input type="checkbox" name="remember" id="remember" class="form-check-input">
+                                    <label for="remember" class="form-check-label">Remember Me</label>
+                                </div> -->
+                                <button type="submit" class="btn btn-primary ms-auto">
+                                    Sign UP
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="../static/login.js"></script>
+
+{% endblock %}

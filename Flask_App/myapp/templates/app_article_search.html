@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+
+{% block search_articles %}
+
+<div class="container-fluid">
+    {% if not message =="" %}
+    <div class="text-center notification  mt-4 p-5">
+        <h5>Sorry, we are not able to find a match!</h5>
+        <p calss="mt-4 p-5">Please try searching for something else.</p>
+    </div>
+    {% else %}
+    <div>
+        <h3 class="title mt-3">
+            Results for <span class="h5 text-muted">{{query}}</span>
+        </h3>
+    </div>
+    {% endif%}
+    <div class="row ">
+        {% for n in range(article_titles|count) %}
+        <div class="col-sm-4 d-flex mt-4">
+            <div class="card card-body flex-fill border rounded shadow-sm ">
+                <div class="my-2">
+                    <img alt="Card image cap" class="card-img-top img-fluid" src="../static/ibm.png" />
+                    <dic class="row mt-4">
+                        <!-- Show Article title -->
+                        <div class="col-sm-9">
+                            <h5 class="title">
+                                {{article_titles[n]}}
+                            </h5>
+                        </div>
+                        <!-- Show Number of views -->
+                        <div class="text-center  col-sm-3">
+                            <div class="d-flex flex-row">
+                                <div class="p-1"><i class="fa-solid fa-eye"></i></div>
+                                <div class="p-1">
+                                    {% if article_num_interactions[n] >50 %}
+                                    <p style="font-size: small;background-color: gold;">
+                                        {{article_num_interactions[n]}}
+                                    </p>
+                                    {% else %}
+                                    <p style="font-size: small;background-color: silver;">
+                                        {{article_num_interactions[n]}}
+                                    </p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </dic>
+                    <!-- Show Article descreption (first 150 car) -->
+                    <p class="mt-4">
+                        {{article_descriptions[n][:150]}} ...
+                    </p>
+                </div>
+                <!-- Add read Button -->
+                <div class="d-flex flex-row mt-auto">
+                    <form action="/read_article" method="get">
+                        <input type="hidden" name="article_id" value={{article_ids[n]}} />
+                        <button type="submit" class="btn btn-link">Read</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+{% endblock %}

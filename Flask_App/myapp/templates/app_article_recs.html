@@ -1,0 +1,292 @@
+{% extends "base.html" %}
+{% block search_articles %}
+{% endblock %}
+
+{% block RecsForYou_Message %}
+<div class="container-fluid ">
+    {% if is_new_uesr %}
+    <p class="h3 text-primary mt-2">Welcome to IBM Watson Community!</p>
+    {% endif %}
+    <p class="h3  mt-2">Recommended for you</p>
+</div>
+
+{% endblock %}
+
+{% block RecsForYou_Content %}
+
+<!-- Set data-bs-interval="false" to stop auto sliding-->
+<div id="Carousel_RecsForYou" class="carousel slide" data-bs-ride="carousel" data-bs-interval="false">
+    <div class="carousel-inner">
+
+        <!--  Use Bootstrap Carousel -->
+        <!-- Show 3 cards. Use buttons next and previous-->
+        {% for k in range((Nb_recs/3|round)|int) %}
+        {% if k==0 %}
+        <div class="carousel-item active">
+            {% else %}
+            <div class="carousel-item ">
+                {% endif %}
+                <div class="container-fluid">
+                    <div class="row ">
+                        <!-- Show 3 cards -->
+                        {% for n in range(3*k,3*(k+1)) %}
+                        <div class="col-sm-4 d-flex">
+                            <div class="card card-body flex-fill border rounded shadow-sm ">
+                                <div class="my-2">
+                                    <img alt="Card image cap" class="card-img-top img-fluid" src="../static/ibm.png" />
+                                    <dic class="row mt-4">
+                                        <!-- Show Article title -->
+                                        <div class="col-sm-9">
+                                            <h5 class="title">
+                                                {{rec_titles[n]}}
+                                            </h5>
+                                        </div>
+                                        <!-- Show Number of views -->
+                                        <div class="text-center  col-sm-3">
+                                            <div class="d-flex flex-row">
+                                                <div class="p-1"><i class="fa-solid fa-eye"></i></div>
+                                                <div class="p-1">
+                                                    {% if rec_nbViews[n] > Threshold_gold %}
+                                                    <p style="font-size: small;background-color: gold;">
+                                                        {{rec_nbViews[n]}}
+                                                    </p>
+                                                    {% else %}
+                                                    <p style="font-size: small;background-color: silver;">
+                                                        {{rec_nbViews[n]}}
+                                                    </p>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </dic>
+                                    <!-- Show Article descreption (first 150 car) -->
+                                    <p class="mt-4">
+                                        {{rec_desc[n][:150]}} ...
+                                    </p>
+                                </div>
+                                <!-- Add read Button -->
+                                <div class="d-flex flex-row mt-auto">
+                                    <form action="/read_article" method="get">
+                                        <input type="hidden" name="article_id" value={{rec_ids[n]}} />
+                                        <button type="submit" class="btn btn-link">Read</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            {% endfor %}
+        </div>
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#Carousel_RecsForYou" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#Carousel_RecsForYou" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+
+
+    </div>
+    {% endblock %}
+
+
+
+    {% block OtherUserView_Message %}
+    {% if rec_users_ids[0] > 0 %}
+    <h3 class="title mt-3">
+        Users are viewing
+    </h3>
+    {% endif %}
+    {% endblock %}
+
+
+    {% block OtherUserView_Content %}
+    {% if rec_users_ids[0] > 0 %}
+    <!-- Set data-bs-interval="false" to stop auto sliding-->
+    <div id="Carousel_OtherUserView" class="carousel slide" data-bs-ride="carousel" data-bs-interval="false">
+        <div class="carousel-inner">
+
+            <!--  Use Bootstrap Carousel -->
+            <!-- First 3 cards: use class="carousel-item active"
+        for the other cards: use class="carousel-item" -->
+            {% for k in range(0,3) %}
+            {% if k==0 %}
+            <div class="carousel-item active">
+                {% else %}
+                <div class="carousel-item ">
+                    {% endif %}
+                    <div class="container-fluid">
+                        <div class="row ">
+                            <!-- Show 3 cards -->
+                            {% for n in range(3*k,3*(k+1)) %}
+                            <div class="col-sm-4 d-flex">
+                                <div class="card card-body flex-fill border rounded shadow-sm ">
+                                    <div class="my-2 ">
+                                        <img alt="Card image cap" class="card-img-top img-fluid"
+                                            src="../static/ibm.png" />
+                                        <dic class="row mt-4">
+                                            <!-- Show Article title -->
+                                            <div class="col-sm-9">
+                                                <h5 class="title">
+                                                    {{rec_users_titles[n]}}
+                                                </h5>
+                                            </div>
+                                            <!-- Show Number of views -->
+                                            <div class="text-center  col-sm-3">
+                                                <div class="d-flex flex-row">
+                                                    <div class="p-1"><i class="fa-solid fa-eye"></i></div>
+                                                    <div class="p-1">
+                                                        {% if rec_users_nbViews[n] >Threshold_gold %}
+                                                        <p style="font-size: small;background-color: gold;">
+                                                            {{rec_users_nbViews[n]}}
+                                                        </p>
+                                                        {% else %}
+                                                        <p style="font-size: small;background-color: silver;">
+                                                            {{rec_users_nbViews[n]}}
+                                                        </p>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </dic>
+                                        <!-- Show Article descreption (first 150 cars)-->
+                                        <p class="mt-4">
+                                            {{rec_users_desc[n][:150]}} ...
+                                        </p>
+                                    </div>
+                                    <!-- Add read Button -->
+                                    <div class="d-flex flex-row mt-auto">
+                                        <form action="/read_article" method="get">
+                                            <input type="hidden" name="article_id" value={{rec_users_ids[n]}} />
+                                            <button type="submit" class="btn btn-link">Read</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                {% endfor %}
+            </div>
+
+            <!-- Adding in the previous and next controls for Carousel: -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#Carousel_OtherUserView"
+                data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#Carousel_OtherUserView"
+                data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+        {% endif %}
+        {% endblock %}
+
+
+
+        {% block ContentRecs_Message %}
+        {% if rec_users_ids[0] > 0 %}
+        <h3 class="title mt-3">
+            Because you have read <span class="h5 text-muted">{{last_read_article_title}}</span>
+        </h3>
+        <!-- <h5 class=" title mt-3">
+                {{last_read_article_title}}
+                </h5> -->
+        {% endif %}
+        {% endblock %}
+
+
+        {% block ContentRecs_Content %}
+        {% if rec_users_ids[0] > 0 %}
+        <!-- Set data-bs-interval="false" to stop auto sliding-->
+        <div id="Carousel_Content_Recs_View" class="carousel slide" data-bs-ride="carousel" data-bs-interval="false">
+            <div class="carousel-inner">
+
+                <!--  Use Bootstrap Carousel -->
+                <!-- First 3 cards: use class="carousel-item active"
+            for the other cards: use class="carousel-item" -->
+                {% for k in range(0,3) %}
+                {% if k==0 %}
+                <div class="carousel-item active">
+                    {% else %}
+                    <div class="carousel-item ">
+                        {% endif %}
+                        <div class="container-fluid">
+                            <div class="row ">
+                                <!-- Show 3 cards -->
+                                {% for n in range(3*k,3*(k+1)) %}
+                                <div class="col-sm-4 d-flex">
+                                    <div class="card card-body flex-fill border rounded shadow-sm ">
+                                        <div class="my-2 ">
+                                            <img alt="Card image cap" class="card-img-top img-fluid"
+                                                src="../static/ibm.png" />
+                                            <dic class="row mt-4">
+                                                <!-- Show Article title -->
+                                                <div class="col-sm-9">
+                                                    <h5 class="title">
+                                                        {{rec_content_titles[n]}}
+                                                    </h5>
+                                                </div>
+                                                <!-- Show Number of views -->
+                                                <div class="text-center  col-sm-3">
+                                                    <div class="d-flex flex-row">
+                                                        <div class="p-1"><i class="fa-solid fa-eye"></i></div>
+                                                        <div class="p-1">
+                                                            {% if rec_content_nbViews[n] >Threshold_gold %}
+                                                            <p style="font-size: small;background-color: gold;">
+                                                                {{rec_content_nbViews[n]}}
+                                                            </p>
+                                                            {% else %}
+                                                            <p style="font-size: small;background-color: silver;">
+                                                                {{rec_content_nbViews[n]}}
+                                                            </p>
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </dic>
+                                            <!-- Show Article descreption (first 150 cars)-->
+                                            <p class="mt-4">
+                                                {{rec_content_desc[n][:150]}} ...
+                                            </p>
+                                        </div>
+                                        <!-- Add read Button -->
+                                        <div class="d-flex flex-row mt-auto">
+                                            <form action="/read_article" method="get">
+                                                <input type="hidden" name="article_id" value={{rec_content_ids[n]}} />
+                                                <button type="submit" class="btn btn-link">Read</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                    {% endfor %}
+                </div>
+
+                <!-- Adding in the previous and next controls for Carousel: -->
+                <button class="carousel-control-prev" type="button" data-bs-target="#Carousel_Content_Recs_View"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#Carousel_Content_Recs_View"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+            {% endif %}
+            {% endblock %}

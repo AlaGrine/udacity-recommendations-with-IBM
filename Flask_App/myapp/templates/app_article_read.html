@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+
+{% block read_article %}
+<h1 class="title mt-2 mb-2">
+    {{article_title}}
+    <!-- ,{{article_id}} -->
+</h1>
+<h5 style="padding-top: 1em;">{{doc_description}}</h5>
+<p style="padding-top: 1em;">{{doc_body}}</p>
+{% endblock %}
