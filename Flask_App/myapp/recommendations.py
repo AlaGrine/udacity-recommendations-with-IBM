@@ -345,6 +345,28 @@ def get_top_sorted_users(user_id, df, user_item):
     return neighbors_df # Return the dataframe specified in the doc_string
 
 
+def get_top_articles_per_User(user_id,n,df):
+    '''
+    INPUT:
+        n - (int) the number of top articles to return. if n=None then all article ids are returned.
+        df - (pandas dataframe) df as defined at the top of the notebook 
+        user_id (int): the user id
+    
+    OUTPUT:
+        article_ids - (list) A list of the top 'n' article ids for user_id    
+    '''    
+    
+    top_articles_ids = df[df.user_id==user_id]['article_id'].value_counts()
+    
+    if n!=None:
+        top_articles_ids = top_articles_ids.head(n) # keep only the top 'n' 
+        
+    # return a list of top_articles indexes
+    top_articles_ids = list(top_articles_ids.index)
+ 
+    return top_articles_ids
+
+
 def user_user_recs_part2(user_id, m, user_item, df,df_article_recap,content_recs_ids,user_article_ids):
     '''
     INPUT:
@@ -389,7 +411,8 @@ def user_user_recs_part2(user_id, m, user_item, df,df_article_recap,content_recs
     
     for neighbor in closest_neighbors:
         # Get neighbor article ids
-        neighbor_article_ids = get_user_articles(neighbor,user_item)
+        # We choose articles with the most total interactions before choosing those with fewer total interactions.
+        neighbor_article_ids = get_top_articles_per_User(neighbor,None,df)
         
         # Find new_recs: the list of articles that are not seen by the user and not in content based recs
         new_recs = np.setdiff1d(neighbor_article_ids, exclude_article_ids, assume_unique=True)
